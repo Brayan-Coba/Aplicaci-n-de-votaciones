@@ -1,0 +1,20 @@
+{
+  "name": "aplicacion-de-votaciones",
+  "version": "1.0.0",
+  "description": "Aplicacion para votar en diferentes eventos y obtener esos datos",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "Brayan Coba Cruz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
