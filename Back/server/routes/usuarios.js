@@ -1,17 +1,31 @@
 // Load the MySQL connection
 const conexion = require('../data/config');
 
-function getUsuarios(req,res){
-    conexion.query("select * from Usuarios", function(error,results) {
-        if(error) {
-            res.status(500).send(error);
-        }
-        else{
-            res.send(results)
-        }
+async function usuarioTieneRol(usuario,rol){
+    return new Promise ((resolve,reject) =>{
+        var consulta = 
+        `
+        Select  Roles_idRol 
+        from    Usuarios join Roles_X_Usuario 
+        on      idUsuario = Usuarios_idUsuario 
+        where   idUsuario = ?
+        and     Roles_idRol = ?
+        `
+        conexion.query(consulta, [usuario,rol], function(error,results) {
+            if (error){
+                reject(error)
+            }
+            else if (results.length == 0){
+                resolve(false)
+            }
+            else {
+                resolve(true)
+            }
+        })
     })
 }
 
+
 module.exports = {
-    getUsuarios : getUsuarios
+    usuarioTieneRol : usuarioTieneRol
 }

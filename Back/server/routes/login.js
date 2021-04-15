@@ -3,7 +3,7 @@ const conexion = require('../data/config');
 
 async function comprobarUsuario(user) {
   return new Promise ((resolve,reject) => {
-    conexion.query("select * from Usuarios where usuario = ?", user , function(error,results) {
+    conexion.query("select * from Usuarios where idUsuario = ?", user , function(error,results) {
         if(error) {
            reject(error)
         }
@@ -14,16 +14,30 @@ async function comprobarUsuario(user) {
   }) 
 }
 
+async function comprobarNombreUsuario(user) {
+    return new Promise ((resolve,reject) => {
+      conexion.query("select * from Usuarios where Usuario = ?", user , function(error,results) {
+          if(error) {
+             reject(error)
+          }
+          else {
+             resolve(results)
+          }
+      })
+    }) 
+  }
+  
+
 async function postLogin(req,res){
     var user = req.body.user
     try {
-        var db_user = await comprobarUsuario(user)
+        var db_user = await comprobarNombreUsuario(user)
     
         if (db_user.length == 0){
             res.status(401).send()
         }
         else {
-            res.send(db_user[0].Usuario)
+            res.send(JSON.stringify(db_user[0].idUsuario))
         }
     }
     catch(error) {

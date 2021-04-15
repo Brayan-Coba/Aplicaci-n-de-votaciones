@@ -29,7 +29,7 @@ async function obtenerNominadosPorEvento(evento){
     return new Promise ((resolve,reject) => {
         var consulta = 
         `
-        select 	idNominado,
+        select 	idNominado_X_Evento as code,
 		        Nominado 
         from 	Nominados join Nominados_X_Evento 
         on 		Nominados.idNominado = Nominados_X_Evento.Nominados_idNominado
