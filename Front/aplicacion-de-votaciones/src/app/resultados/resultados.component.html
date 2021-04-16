@@ -1,5 +1,4 @@
 <div *ngIf='result.length > 0' class="container">
-    <h2>Resultados</h2>    
-    <h3>{{title}}</h3>
-    <p *ngFor="let dato of data">Nominado {{dato[0]}} - Votos {{dato[1]}}</p>
+    <h2>Evento {{title}}</h2>    
+    <p *ngFor="let dato of data">{{dato[0]}} - Votos {{dato[1]}}</p>
 </div>

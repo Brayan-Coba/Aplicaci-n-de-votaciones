@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { from, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
 
 import { loginData } from "./usuario";
 import { Evento } from "./eventos";
@@ -27,7 +28,7 @@ export class AppVotacionesService {
   private votarUrl = "/votar";
   private resultadosUrl ="/votos";
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private socket: Socket) { }
 
   login(usuario: loginData) : Observable <any>{
 
@@ -99,7 +100,9 @@ export class AppVotacionesService {
     let voto = {"code" : String(opcion)}
     let url = this.backendHost+this.votarUrl+"?user="+token
 
-    return this.http.post<any>(url,voto,this.httpOptions).pipe(tap(() => {}, (err: any) => {
+    return this.http.post<any>(url,voto,this.httpOptions).pipe(tap((result) => { 
+      this.socket.emit('new-vote', opcion);
+    }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status == 401) {
           alert(err.error)
@@ -114,6 +117,15 @@ export class AppVotacionesService {
       }
     }))
   }
+
+  public newVoteDtected = () => {
+    return Observable.create((observer : any) => {
+            this.socket.on('new-vote', (opcion : any) => {
+              observer.next(opcion);
+              alert("Voto detectado")
+            });
+    });
+}
 
   getResultados(token: string): Observable<Resultado[]> {
     let params = new HttpParams()
