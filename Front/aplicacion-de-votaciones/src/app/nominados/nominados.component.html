@@ -1,5 +1,7 @@
 <ul class="nominados">
-    <li *ngFor="let nominado of nominados">
+    <li *ngFor="let nominado of nominados" (click)="votar(nominado.code)">
             <span class="badge">{{nominado.Nominado}}</span>
     </li>
 </ul>
+
+<a *ngIf= "token" routerLink="/logout">Salir</a>

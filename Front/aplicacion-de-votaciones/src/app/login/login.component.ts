@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
     this.roles = [];
     localStorage.removeItem(this.tokenKey)
     localStorage.removeItem(this.tokenRoles)
-    alert("Se ha cerrado la sesión")
     this.router.navigate(["/login"])
   }
 }

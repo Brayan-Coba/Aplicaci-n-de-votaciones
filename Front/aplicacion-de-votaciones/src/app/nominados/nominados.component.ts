@@ -16,6 +16,12 @@ export class NominadosComponent implements OnInit {
 
   nominados: Nominado[] = []
 
+  votar(opcion: number){
+    this.appvotacionesservice.postVotar(this.token, opcion).subscribe((result)=>{
+      alert("Se registró el voto")
+    })
+  }
+
   
   loadCache(){
 

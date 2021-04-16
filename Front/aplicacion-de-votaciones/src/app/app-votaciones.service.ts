@@ -23,6 +23,7 @@ export class AppVotacionesService {
   private loginUrl = "/login";
   private eventosUrl = "/eventos";
   private nominadosUrl ="/eventos/:evento"
+  private votarUrl = "/votar"
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -91,4 +92,25 @@ export class AppVotacionesService {
       }
     }))
   }
+
+  postVotar(token:string, opcion: number) : Observable <any>{
+    let voto = {"code" : String(opcion)}
+    let url = this.backendHost+this.votarUrl+"?user="+token
+
+    return this.http.post<any>(url,voto,this.httpOptions).pipe(tap(() => {}, (err: any) => {
+      if (err instanceof HttpErrorResponse) {
+        if (err.status == 401) {
+          alert(err.error)
+        }
+        else {
+          alert(err.statusText)
+        }
+      }
+      else {
+        console.log(err)
+        alert("Error desconocido")
+      }
+    }))
+  }
+
 }
