@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors")
 
 const login = require("./routes/login");
 const eventos = require("./routes/eventos");
@@ -12,7 +13,8 @@ app.set("port", process.env.PORT || 3000);
 app.set("json spaces", 2);
 
 //middlewares
-app.use(morgan("combined"));
+app.use(cors())
+app.use(morgan("dev"));
 app.use(express.urlencoded({extended : false}));
 app.use(express.json());
 app.use(login.verificarLogin)

@@ -1,0 +1,9 @@
+<div class="login-component" *ngIf="!token">
+    <input type="text" [(ngModel)] = "usuario.user" placeholder="Usuario">
+    <button (click)="onLogin(usuario)" >Iniciar sesión</button>
+</div>
+
+
+<div class="logout-component" *ngIf="token">
+    <button (click)="onLogout()" >Cerrar sesión</button>
+</div>

@@ -16,16 +16,37 @@ async function comprobarUsuario(user) {
 
 async function comprobarNombreUsuario(user) {
     return new Promise ((resolve,reject) => {
-      conexion.query("select * from Usuarios where Usuario = ?", user , function(error,results) {
-          if(error) {
-             reject(error)
-          }
-          else {
-             resolve(results)
-          }
-      })
+        conexion.query("select * from Usuarios where Usuario = ?", user , function(error,results) {
+            if(error) {
+                reject(error)
+            }
+            else {
+                resolve(results)
+            }
+        })
     }) 
-  }
+}
+
+async function obtenerRoles(userId){
+    return new Promise((resolve,reject) => {
+        var peticion = 
+        `
+        select Usuarios_idUsuario as token,Rol 
+        from roles_x_usuario join roles 
+        on Roles_idRol = idRol 
+        where Usuarios_idUsuario = ?;
+        `
+        conexion.query(peticion,userId,(err,result)=>{
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(result)
+            }
+        })
+    })
+
+}
   
 
 async function postLogin(req,res){
@@ -37,7 +58,9 @@ async function postLogin(req,res){
             res.status(401).send()
         }
         else {
-            res.send(JSON.stringify(db_user[0].idUsuario))
+            var userId = db_user[0].idUsuario
+            var roles = await obtenerRoles(userId)
+            res.send(roles)
         }
     }
     catch(error) {
