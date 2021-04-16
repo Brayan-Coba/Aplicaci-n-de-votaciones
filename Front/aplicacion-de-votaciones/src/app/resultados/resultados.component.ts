@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+
+import { Resultado } from "../resultado"
 
 @Component({
   selector: 'app-resultados',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultadosComponent implements OnInit {
 
+  @Input() result : Resultado[] = [];
+
+  title: string = ""
+
+  data : any[] = [];
+  
   constructor() { }
 
-  ngOnInit(): void {
+  getData() : void {
+    this.result.forEach((element:Resultado) => {
+      let dato = [element.Nominado, element.Votos]
+      this.data.push(dato)
+    });
   }
 
+  ngOnInit(): void {
+    this.getData()
+    if (this.result[0]){
+      this.title = this.result[0].Evento
+    }
+  }
 }

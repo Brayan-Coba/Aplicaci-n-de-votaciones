@@ -1,0 +1,6 @@
+<div class="resultados">
+    <app-resultados *ngFor="let resEvento of gruposDeResultados" [result] = "resEvento">
+    </app-resultados>
+</div>
+
+<a *ngIf= "token" routerLink="/logout">Cerrar sesión</a>

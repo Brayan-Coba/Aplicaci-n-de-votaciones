@@ -13,7 +13,6 @@ export class EventosComponent implements OnInit {
   tokenKey: string = "app-votos-token";
   tokenRoles: string = "app-votos-roles";
   token: string = ""
-
   roles: string[] = []
   eventos: Evento[] = []
 

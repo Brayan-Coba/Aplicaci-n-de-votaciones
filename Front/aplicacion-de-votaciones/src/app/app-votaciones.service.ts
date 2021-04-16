@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 
 import { loginData } from "./usuario";
 import { Evento } from "./eventos";
-import { Nominado } from "./nominado"
+import { Nominado } from "./nominado";
+import { Resultado } from "./resultado";
  
 
 @Injectable({
@@ -22,8 +23,9 @@ export class AppVotacionesService {
   
   private loginUrl = "/login";
   private eventosUrl = "/eventos";
-  private nominadosUrl ="/eventos/:evento"
-  private votarUrl = "/votar"
+  private nominadosUrl ="/eventos/:evento";
+  private votarUrl = "/votar";
+  private resultadosUrl ="/votos";
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -113,4 +115,26 @@ export class AppVotacionesService {
     }))
   }
 
+  getResultados(token: string): Observable<Resultado[]> {
+    let params = new HttpParams()
+    params = params.set("user",token)
+
+    let url = this.backendHost+this.resultadosUrl;
+   
+    return this.http.get<Resultado[]>(url,{params}).pipe(tap(() => {}, (err: any) => {
+      if (err instanceof HttpErrorResponse) {
+        if (err.status == 401) {
+          alert("Usuario no auntenticado")
+          this.router.navigate(["/login"])
+        }
+        else {
+          alert(err.statusText)
+        }
+      }
+      else {
+        console.log(err)
+        alert("Error desconocido")
+      }
+    }))
+  }
 }
